@@ -50,3 +50,10 @@ body {
   .animate-slideInDown {
     animation: slideInDown 0.5s ease-in-out;
   }
+
+     .logo{
+    width: 130px;
+     margin-left: -5px;
+      height: 50px;
+  }
+   
