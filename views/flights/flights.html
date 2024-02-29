@@ -12,8 +12,22 @@
             crossorigin="anonymous"
             />
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <!-- Script for header and footer -->
+            <script>
+                $(function(){
+                    $("#header").load("/layouts/header.html"); 
+                    $("#footer").load("/layouts/footer.html"); 
+                });
+            </script>
 </head>
 <body>
-        This is an example Flight page
+
+    <div id="header"></div>
+
+        <main class="container">
+            <h1>Flights section example</h1>
+        </main>
+
+    <div id="footer"></div>
 </body>
 </html>
