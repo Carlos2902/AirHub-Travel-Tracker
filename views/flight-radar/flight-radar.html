@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fligh Radar</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Leaftlet map  -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+        <!-- Make sure you put this AFTER Leaflet's CSS -->
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+
+        <!-- Styles for home -->
+        <link rel="stylesheet" href="./flight-radar.css">
+
+        <!-- Script for header and footer -->
+        <script>
+            $(function(){
+                $("#header").load("/layouts/header.html"); 
+                $("#footer").load("/layouts/footer.html"); 
+            });
+        </script>
+</head>
+<body>
+    <div id="header"></div>
+
+        <div class="container">
+            <main class="py-5">
+                <!-- This section is gonna redirect 
+                  to the second page (flight page) once 
+                  the user clicks on the search button a
+                  ccordin with its flight number or route provided -->
+                <section class="search-section">
+                  <!-- Hero content -->
+                  <h1 class="fw-bold text-start display-5" style="color: #4cacff !important; font-weight: 10;">Airhub Flight Radar </h1>
+                  <p class="text-start mt-3" style="color: #6c757d;">Use Airhub Advanced API to track any flight in the world. Stay informed about flight statuses, routes, and more!</p>
+
+                  <div class="jumbotron text-center position-relative" style="margin-top: 20px;">
+                    <div class="d-flex flex-column justify-content-center align-items-center position-absolute top-0 start-0 end-0 bottom-0">         
+                    </div>
+
+                    <div class="image-with-text">
+                        <img src="/assets/flight-radar-sample.png" alt="" class="img-fluid rounded mx-auto d-block" style="max-width: 100%;">
+                    </div>
+                    <div class="d-flex flex-column justify-content-center align-items-center position-relative top-0 start-0 end-0 bottom-0 animate-slideInDown">
+                    </div>
+                    <div class="container mt-5">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Search for flights or routes">
+                          <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">Search</button>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+            
+                </section>
+
+                <section>
+                    <div class="container mt-5">
+                        <table class="table table-bordered table-striped" style="background-color: #cce5ff;">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Flight Number</th>
+                                    <th>Destination</th>
+                                    <th>Departure Time</th>
+                                    <th>Arrival Time</th>
+                                    <th>Time to Destination</th>
+                                    <th>Delay</th>
+                                    <th>Gate</th>
+                                    <th>Airline</th>
+                                    <th>Aircraft Type</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ABC123</td>
+                                    <td>New York</td>
+                                    <td>08:00 AM</td>
+                                    <td>10:30 AM</td>
+                                    <td>2 hours 30 minutes</td>
+                                    <td>30 minutes</td>
+                                    <td>5</td>
+                                    <td>Delta Airlines</td>
+                                    <td>Boeing 737</td>
+                                    <td>On Time</td>
+                                </tr>
+                                <tr>
+                                    <td>XYZ456</td>
+                                    <td>Los Angeles</td>
+                                    <td>09:30 AM</td>
+                                    <td>12:00 PM</td>
+                                    <td>2 hours 30 minutes</td>
+                                    <td>10 minutes</td>
+                                    <td>10</td>
+                                    <td>American Airlines</td>
+                                    <td>Airbus A320</td>
+                                    <td>Delayed</td>
+                                </tr>
+                                <tr>
+                                    <td>DEF789</td>
+                                    <td>Chicago</td>
+                                    <td>10:45 AM</td>
+                                    <td>01:15 PM</td>
+                                    <td>2 hours 30 minutes</td>
+                                    <td>On Time</td>
+                                    <td>7</td>
+                                    <td>United Airlines</td>
+                                    <td>Boeing 777</td>
+                                    <td>On Time</td>
+                                </tr>
+                                <!-- Add more rows with additional flight data -->
+                                <tr>
+                                    <td>GHI234</td>
+                                    <td>London</td>
+                                    <td>12:00 PM</td>
+                                    <td>03:30 PM</td>
+                                    <td>3 hours 30 minutes</td>
+                                    <td>45 minutes</td>
+                                    <td>15</td>
+                                    <td>British Airways</td>
+                                    <td>Airbus A380</td>
+                                    <td>Delayed</td>
+                                </tr>
+                                <tr>
+                                    <td>JKL567</td>
+                                    <td>Paris</td>
+                                    <td>01:30 PM</td>
+                                    <td>05:00 PM</td>
+                                    <td>3 hours 30 minutes</td>
+                                    <td>On Time</td>
+                                    <td>20</td>
+                                    <td>Air France</td>
+                                    <td>Boeing 787</td>
+                                    <td>On Time</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </section>
+
+                <section>
+                    <div class="image-slider">
+                        <div class="image-container">
+                          <img src="https://www.travelpress.com/wp-content/uploads/2019/12/istanbul-584-top.jpg" alt="istanbul">
+                          <div class="label">Istanbul Airport</div>
+                        </div>
+                        <div class="image-container">
+                          <img src="https://blog.aci.aero/wp-content/uploads/2019/01/aia1.jpg" alt="athens">
+                          <div class="label">Athens Airport</div>
+                        </div>
+                        <div class="image-container">
+                          <img src="https://storage.googleapis.com/afs-prod/media/35fdd713f72d42e5ae45c4726e437a72/3000.jpeg" alt="uae">
+                          <div class="label">Dubai Airport</div>
+                        </div>
+                    </div>                      
+                  </section>
+                  
+
+                
+              
+                <!-- Real-time Worldwide Flight Traffic -->
+                <section class="intro-paragraph">
+                  <div>
+                      <br>
+                      <h4>
+                        Real time Worldwide 
+                        <medium class="text-muted">Flight Traffic</medium>
+                      </h4>
+                      
+                      <p class="test">
+                        Explore the skies around you or anywhere in the world using our live flight tracking map. 
+                        Click on any aircraft or airport for a more detailed view, and use the layer icon in the top
+                        right corner to add weather layers and more.
+                      </p>
+                  </div>
+                </section>
+          
+                <!-- Flight Radar map -->
+                <div id="map"></div>
+          
+                
+                <!-- Airport arrivals section: exhibition porpouses -->
+                    <section class="airport-arrivals  mb-5">
+                      <div>
+                        <br>
+                        <h2>Airpot Time Arrivals</h2>
+                        <p>Stay updated on your airport timetable
+                          schedule with our easy-to-use tracking 
+                          feature! Never miss a flight again by 
+                          keeping tabs on your airport timetable
+                          schedule. With our real-time updates,
+                          you'll always be in the know! </p>
+                      </div>
+                      <div class="search-form">
+                        <div class="row g-3">
+                          <div class="col-md-3">
+                            <label for="departure-airport" class="form-label">Departure Airport (IATA code):</label>
+                            <input type="text" id="departure-airport" name="departure-airport" class="form-control" placeholder="e.g., YYZ" required>
+                          </div>
+                          <div class="col-md-3">
+                            <label for="arrival-airport" class="form-label">Arrival Airport (IATA code):</label>
+                            <input type="text" id="arrival-airport" name="arrival-airport" class="form-control" placeholder="e.g., JFK" required>
+                          </div>
+                          <div class="col-lg-3" >
+                            <label for="arrival-date" class="form-label">Arrival Date:</label>
+                            <input type="date" id="arrival-date" name="arrival-date" class="form-control" required>
+                          </div>
+                          <div class="col-md-3 align-self-end">
+                            <button id="find-flights" class="btn btn-primary w-100" onclick="handleFindFlights()">Find Flights</button>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+          
+                    <!-- Table for displaying flight arrival details -->
+                    <div id="flight-details" style="display: none;" class="mb-5">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Flight Number</th>
+                            <th>Departure</th>
+                            <th>Arrival</th>
+                          </tr>
+                        </thead>
+                        <tbody id="flight-details-body" >
+          
+                          <!-- Flight details rows will be dynamically added here -->
+                        </tbody>
+                      </table>
+                    </div>
+          
+                    <section class="weather-info mt-4">
+                      <div class="container">
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <h2>Stay Updated on Weather Conditions</h2>
+                                  <p>Plan your journey with confidence knowing you have access to up-to-date weather information at your fingertips. From sunny skies to stormy conditions, we've got you covered every step of the way!</p>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="d-flex justify-content-center align-items-center">
+                                      <img src="/assets/weather.png" 
+                                           alt="weather icons"
+                                           class="img-fluid"
+                                           width="70%"
+                                           height="50%">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </section>
+              </main>
+        </div>
+        
+    <div id="footer"></div>
+</body>
+
+
+<script type="module" src="/API/fetchFlightData.js"></script>
+<script type="module" src="/API/leaflet.js"></script>
+
+<!-- AFTER DomContent is loaded, display the data of the flights in the map -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      fetchData();
+  });
+</script>
+
+<script src="/API/flightSchdule.js"></script>
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+crossorigin="anonymous"
+></script>
+</html>
