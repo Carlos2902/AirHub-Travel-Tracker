@@ -1,40 +1,27 @@
 .image-with-text {
-    margin-bottom: 20px; /* Adjust the margin-bottom value to increase or decrease the space */
-    text-align: center; /* Center-align the text */
+    margin-bottom: 20px;
+    text-align: center; 
 }
 
 .search-button {
-    background-color: #007bff; /* Blue background color */
-    color: #fff; /* White text color */
-    border: none; /* Remove border */
-    padding: 10px 20px; /* Add padding */
-    font-size: 16px; /* Increase font size */
-    border-radius: 5px; /* Add border radius */
-    cursor: pointer; /* Add cursor pointer */
-    transition: all 0.3s ease; /* Add transition for smooth hover effect */
+    background-color: #007bff;
+    color: #fff; 
+    border: none; 
+    padding: 10px 20px;
+    font-size: 16px; 
+    border-radius: 5px;
+    cursor: pointer; 
+    transition: all 0.3s ease; 
   }
   .search-button:hover {
-    background-color: #0056b3; /* Darker blue background color on hover */
-  }
-
-  .image-slider {
-    width: 100%;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-  
-  .images {
-    display: inline-block;
+    background-color: #0056b3;
   }
   
   .images img {
-    width: 300px; /* Adjust width as needed */
-    height: auto; /* Maintain aspect ratio */
-    margin-right: 20px; /* Adjust spacing between images */
-  }
-  
-  .image-container {
-    position: relative;
+    width: 300px;
+    height: 225px; 
+    height: auto; 
+    margin-right: 20px;
   }
   
   .label {
@@ -47,5 +34,36 @@
     color: white;
     padding: 5px;
     font-size: 12px;
+  }
+
+  
+  .image-slider {
+    overflow-x: auto; 
+  }
+  
+  .images {
+    display: flex; 
+  }
+  
+  .image-container {
+    margin-right: 10px; 
+    width: 300px; 
+    height: 225px; 
+    object-fit: cover;
+  }
+
+  .image-container1 {
+    margin-right: 10px; 
+    width: 300px; 
+    height: 225px; 
+  }
+  
+  .image-container:last-child {
+    margin-right: 0; 
+  }
+
+  .image-slider{
+    border-color: #007bff;
+    border-width: 2px;
   }
   
