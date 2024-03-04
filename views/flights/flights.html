@@ -19,14 +19,48 @@
                     $("#footer").load("/layouts/footer.html"); 
                 });
             </script>
+
+<style>
+    .flight-status {
+      background-color: #F9F9F9;
+      padding: 20px;
+    }
+    .search-form {
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
 
     <div id="header"></div>
 
-        <main class="container">
-            <h1>Flights section example</h1>
-        </main>
+    <div class="container my-5">
+        <div class="row">
+          <div class="col-md-5 flight-status">
+            <h2>Flight Status</h2>
+            <div class="py-5"></div>
+            <form>
+                <div class="mb-3">
+                  <input type="text" class="form-control" id="fromInput" placeholder="FROM">
+                </div>
+                <div class="mb-3">
+                  <input type="text" class="form-control" id="toInput" placeholder="TO">
+                </div>
+                <div class="mb-3">
+                  <input type="date" class="form-control" id="dateInput">
+                </div>
+                <button type="submit" class="btn btn-primary my-3">Search</button>
+              </form>
+        </div>
+        <div class="col-md-7">
+          <div class="search-form">
+            <h2>IMG IN HERE</h2>
+            
+          </div>
+        </div>
+            <!-- Add flight status content here if needed -->
+        </div>
+      </div>
 
     <div id="footer"></div>
 </body>

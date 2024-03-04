@@ -21,7 +21,7 @@ async function addMarkers() {
         // Create marker with custom icon
         const customIcon = L.icon({
             iconUrl: '/assets/plane-i.png',
-            iconSize: [32, 32], // adjust the size if necessary
+            iconSize: [32, 32], 
             iconAnchor: [16, 16], // center the icon
         });
         const marker = L.marker([latitude, longitude], { icon: customIcon }).addTo(map);

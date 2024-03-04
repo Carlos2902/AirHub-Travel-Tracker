@@ -24,7 +24,6 @@ async function fetchData() {
             label,
             latitude,
             longitude,
-            // Include other properties as needed
         }));
         
         // Export the extractedData array
