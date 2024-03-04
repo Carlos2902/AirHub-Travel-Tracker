@@ -1,7 +1,7 @@
 import fetchData from './fetchFlightData.js';
 
 // Leaflet map Initializer
-var map = L.map('map').setView([43.65107, -79.347015], 13); // Toronto coordinates
+var map = L.map('map').setView([43.6777, -79.6248], 13); // Toronto Pearson Airport coordinates
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -18,8 +18,13 @@ async function addMarkers() {
         // Extract latitude, longitude, and label
         const { latitude, longitude, label } = flight;
 
-        // Create marker
-        const marker = L.marker([latitude, longitude]).addTo(map);
+        // Create marker with custom icon
+        const customIcon = L.icon({
+            iconUrl: '/assets/plane-i.png',
+            iconSize: [32, 32], // adjust the size if necessary
+            iconAnchor: [16, 16], // center the icon
+        });
+        const marker = L.marker([latitude, longitude], { icon: customIcon }).addTo(map);
 
         // Create popup with label
         const popupContent = `<b>${label}</b><br>Latitude: ${latitude}<br>Longitude: ${longitude}`;
