@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather</title>
+    <title>Home</title>
         <!-- Bootstrap CSS -->
         <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -11,6 +11,9 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
         crossorigin="anonymous"
         />
+        <!--  Fontawesome Icons -->
+        <script src="https://kit.fontawesome.com/1fe08c0760.js" crossorigin="anonymous"></script>
+        <!--  JQuery  -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!-- Leaftlet map  -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -20,9 +23,10 @@
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
 
         <!-- Styles for home -->
-        <link rel="stylesheet" href="./home.css">
+        <link rel="stylesheet" href="./weather.css">
 
         <!-- Script for header and footer -->
         <script>
@@ -31,174 +35,248 @@
                 $("#footer").load("/layouts/footer.html"); 
             });
         </script>
+
+<script>
+  function initMap() {
+    var map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: 40.7128, lng: -74.0060 },
+      zoom: 8,
+      gestureHandling: 'cooperative' // Allow zooming only after click or touch
+    });
+
+    // Define custom marker icons for different weather conditions
+    var icons = {
+      clear: "/assets/clear.png",
+      rainy: "/assets/rainy.png",
+      cloudy: "/assets/cloudy.png"
+    };
+
+    // Sample weather data (replace with actual weather data)
+    var weatherData = [
+      { lat: 40.7128, lng: -74.0060, condition: 'clear' }, 
+      { lat: 34.0522, lng: -118.2437, condition: 'rainy' }, 
+      { lat: 51.5074, lng: -0.1278, condition: 'cloudy' }
+      // Add more weather data as needed
+    ];
+
+    // Add markers to the map
+    weatherData.forEach(function(weather) {
+      var marker = new google.maps.Marker({
+        position: { lat: weather.lat, lng: weather.lng },
+        map: map,
+        icon: icons[weather.condition] 
+      });
+    });
+  }
+</script>
+
 </head>
 <body>
     <div id="header"></div>
 
-        <div class="container">
-            <main class="py-5">
-                <!-- This section is gonna redirect 
-                  to the second page (flight page) once 
-                  the user clicks on the search button a
-                  ccordin with its flight number or route provided -->
-                <section class="search-section">
-                  <!-- Hero content -->
-                  <div class="jumbotron text-center position-relative style="margin-top: 50px;">
-                    <div class="d-flex flex-column justify-content-center align-items-center position-absolute top-0 start-0 end-0 bottom-0">         
-                    </div>            
-                    <h1 class="fw-bold text-start display-5" style="color: #4cacff !important; font-weight: 10;">Airhub
-                        Weather </h1>
-                    <p class="text-start mt-3" style="color: #6c757d;">Use Airhub Advanced API to track the weather of any city in the world!</p>
-                  
-                  
-                  <div class="d-flex justify-content-start">
-                    <button class="btn btn-md btn-outline-warning cursor-pointer"  text-dark type="button" onclick="window.location.href='/views/flights/flights.html'" style="margin-top: 20px;">By City</button>
-                    <button class="btn btn-md btn-outline-warning cursor-pointer" text-dark type="button" onclick="window.location.href='#'" style="margin-top: 20px; margin-left: -5px; background-color: #f5e1a7;">By Airport Name</button>
-                </div>
-                
-                
-                  
-                  <form class="d-flex">
-                    <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-info" type="submit">Search</button>
-                  </form>
-                </section>
+    <div class="search-form">
+            <!-- Form for sending data via POST request -->
+            <form id="weatherForm" method="POST">
+              <div class="search">
+                  <input type="text" id="cityInput" name="city" placeholder="Enter city name" spellcheck="false">
+                  <!-- Use a submit button inside the form -->
+                  <button class="btn btn-search"  type="submit"><img src="/assets/search.png" alt=""></button>
+              </div>
+          </form>
+          <p class="fw-bold p-tag">Current Weather in Arrival Destination</p>
+    </div>
 
-                <section>
-                    <div class="container">
-                        <h2 class="text-center mt-5 mb-3" style="color: #4cacff;">Weather Conditions in New York City</h2>
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Temperature (&deg;C)</th>
-                                    <th>Feels Like (&deg;C)</th>
-                                    <th>Humidity (%)</th>
-                                    <th>Wind Speed (km/h)</th>
-                                    <th>Wind Direction</th>
-                                    <th>Pressure (hPa)</th>
-                                    <th>Visibility (km)</th>
-                                    <th>UV Index</th>
-                                    <th>Precipitation (mm)</th>
-                                    <th>Weather Condition</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>2024-02-06</td>
-                                    <td>12:00 PM</td>
-                                    <td>2</td>
-                                    <td>-1</td>
-                                    <td>70</td>
-                                    <td>15</td>
-                                    <td>North</td>
-                                    <td>1015</td>
-                                    <td>10</td>
-                                    <td>2</td>
-                                    <td>0.0</td>
-                                    <td>Sunny</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                </section>
+    <div class="container-weather" style="display: none;">
+      <div class="row">
+        <!-- Current Weather Column -->
+        <div class="col-md-6 mt-5 ">
+          <div class="weather-card ">
+            <div class="card-body mt-5">
+              <h5 class="card-title">Current Weather</h5>
+              <div id="slider">
+                <button id="toggleUnit" class="toggle-button" style="display: none;"><i class="fa-solid fa-temperature-high"></i></button>             
+              </div>
+              <div class="current-weather">
+                <h2 class="current-temp"></h2>
+                <p class="current-date"></p>
+                <p class="current-info"></p>
+              </div>
+            </div>
+          </div>
 
-                
-              
-                <!-- Real-time Worldwide Flight Traffic -->
-                <section class="intro-paragraph">
-                  <div>
-                      <br>
-                      <h4>
-                        Real time Worldwide 
-                        <medium class="text-muted">Flight Traffic</medium>
-                      </h4>
-                      
-                      <p class="test">
-                        Explore the skies around you or anywhere in the world using our live flight tracking map. 
-                        Click on any aircraft or airport for a more detailed view, and use the layer icon in the top
-                        right corner to add weather layers and more.
-                      </p>
-                  </div>
-                </section>
-          
-                <!-- Flight Radar map -->
-                <div id="map"></div>
-          
-                
-                <!-- Airport arrivals section: exhibition porpouses -->
-                    <section class="airport-arrivals  mb-5">
-                      <div>
-                        <br>
-                        <h2>Airpot Time Arrivals</h2>
-                        <p>Stay updated on your airport timetable
-                          schedule with our easy-to-use tracking 
-                          feature! Never miss a flight again by 
-                          keeping tabs on your airport timetable
-                          schedule. With our real-time updates,
-                          you'll always be in the know! </p>
-                      </div>
-                      <div class="search-form">
-                        <div class="row g-3">
-                          <div class="col-md-3">
-                            <label for="departure-airport" class="form-label">Departure Airport (IATA code):</label>
-                            <input type="text" id="departure-airport" name="departure-airport" class="form-control" placeholder="e.g., YYZ" required>
-                          </div>
-                          <div class="col-md-3">
-                            <label for="arrival-airport" class="form-label">Arrival Airport (IATA code):</label>
-                            <input type="text" id="arrival-airport" name="arrival-airport" class="form-control" placeholder="e.g., JFK" required>
-                          </div>
-                          <div class="col-lg-3" >
-                            <label for="arrival-date" class="form-label">Arrival Date:</label>
-                            <input type="date" id="arrival-date" name="arrival-date" class="form-control" required>
-                          </div>
-                          <div class="col-md-3 align-self-end">
-                            <button id="find-flights" class="btn btn-primary w-100" onclick="handleFindFlights()">Find Flights</button>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
-          
-                    <!-- Table for displaying flight arrival details -->
-                    <div id="flight-details" style="display: none;" class="mb-5">
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Flight Number</th>
-                            <th>Departure</th>
-                            <th>Arrival</th>
-                          </tr>
-                        </thead>
-                        <tbody id="flight-details-body" >
-          
-                          <!-- Flight details rows will be dynamically added here -->
-                        </tbody>
-                      </table>
-                    </div>
-          
-                    <section class="weather-info mt-4">
-                      <div class="container">
-                          <div class="row">
-                              <div class="col-md-6">
-                                  <h2>Stay Updated on Weather Conditions</h2>
-                                  <p>Plan your journey with confidence knowing you have access to up-to-date weather information at your fingertips. From sunny skies to stormy conditions, we've got you covered every step of the way!</p>
-                              </div>
-                              <div class="col-md-6">
-                                  <div class="d-flex justify-content-center align-items-center">
-                                      <img src="/assets/weather.png" 
-                                           alt="weather icons"
-                                           class="img-fluid"
-                                           width="70%"
-                                           height="50%">
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </section>
-              </main>
+  
+  
+          <div class="forecast">
+            <h5 class="card-title">Forecast</h5>
+            <div class="forecast-cards row">
+            </div>
+          </div>
         </div>
+
+ <!-- City Information Column -->
+<div class="col-md-6 mt-5">
+  <div class="city-info weather-card-col">
+    <h5 class="card-title">City Information</h5>
+    <p class="city-name p-tag"></p>
+    <p class="country"></p>
+    <div class="row">
+      <div class="col-md-6">
+          <div class="sunrise-card weather-card">
+              <div class="card-body" style="background-color: rgba(138, 199, 250, 0.4); border-radius: 10px; font-size: 20px;">
+                  <h6>Sunrise</h6>
+                  <p class="sunrise-time"></p>
+                  <img src="/assets/sunrise.png" class="sunrise-icon" alt="Sunrise Icon">
+              </div>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="sunset-card weather-card">
+              <div class="card-body" style="background-color: rgba(138, 199, 250, 0.4); border-radius: 10px; font-size: 20px;">
+                  <h6>Sunset</h6>
+                  <p class="sunset-time"></p>
+                  <img src="/assets/sunset.png" class="sunset-icon" alt="Sunset Icon">
+
+              </div>
+          </div>
+      </div>
+  </div>  
+    <hr> 
+    <div class="row">
+      <div class="col-md-2">
+        <h6>Humidity</h6>
+        <p class="humidity mt-5"></p>
+      </div>
+      <div class="col-md-3">
+        <h6>Chance of Rain</h6>
+        <p class="chance-of-rain mt-5"></p>
+      </div>
+      <div class="col-md-3">
+        <h6>Air Quality</h6>
+        <p class="air-quality mt-5"></p>
+      </div>
+      <div class="col-md-2">
+        <h6>Wind Speed</h6>
+        <p class="wind-speed mt-5"></p>
+      </div>
+    </div>
+   
+    <div class="city-info-details">
+  
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+
+
+    <div class="container mt-5">
+      <div class="row">
+        <!-- First Column -->
+        <div class="col-md-6 mx-auto">
+          <span class="h1-text">
+            WE ARE</span> <span class="h1-text">YOUR FLIGHT</span>
+            <span class="h1-text">TRACKING COMPANION!</span>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <span class="Know">
+            Know the current temperature, forecast,
+             and any potential weather impacts at your destination city, 
+             so you can plan your post-flight activities accordingly.
+          </span>
+           <br>
+           <br>
+           <br> 
+          <span class="Our-flight mb-5 mt-5">
+            Our flight tracker system keeps you updated for
+          a seamless travel experience. Safe travels!
+          </span>
+          <br>
+          <br>
+          <br> 
+          <span class="Know">
+            <p class="fw-bold">Tracking a thunderstorm</p>
+            In case of a thunderstorm, take shelter indoors and avoid open areas. 
+            Do not use electronic devices connected to power outlets and stay away from windows and doors. 
+            
+          </span>
+          <br>
+          <br>
+          <br> 
+          <span class="Know">
+            If caught outdoors, seek shelter in a building or vehicle, 
+            and avoid tall structures, open fields, and bodies of water.
+          </span>
+        </div>
+<!-- Second Column -->
+<div class="col-md-6">
+  <!-- Map container -->
+  <div id="map" style="height: 600px;"></div>
+
+  <!-- Initialize the map when the page loads -->
+  <script>
+    function initMap() {
+      // Initialize the map here
+      var map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: YOUR_LATITUDE, lng: YOUR_LONGITUDE },
+        zoom: 8
+      });
+
+    }
+
+    // Call the initMap function when the page loads
+    window.onload = function() {
+      initMap();
+    };
+  </script>
+
+  <br>
+
+  <!-- Fourth Card -->
+  <div class="card mt-5" style="border-radius: 10px; border: 1px solid rgb(192, 215, 248); ">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="/assets/trackingflight.jpg" class="img-top" alt="World Map Image" style="width: 300px; border-radius: 10px;">
+      </div>
+      <div class="col-md-6">
+        <div class="card-body">
+          <p class="card-text">Track your flight in real time.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<br>
+<br>
+  <div class="card mt-1" style="border-radius: 10px; border: 1px solid rgb(192, 215, 248);">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card-body">
+          <p class="card-text">Current weather in real time.</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <img src="/assets/weathericons.jpg" class="img-bottom" alt="World Map Image" style="width: 310px; border-radius: 10px;">
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="card mt-1 mb-5" style="border-radius: 10px; border: 1px solid rgb(192, 215, 248);">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="/assets/warning.jpeg" class="img-top" alt="World Map Image" style="width: 320px; border-radius: 10px;">
+      </div>
+      <div class="col-md-6">
+        <div class="card-body">
+          <p class="card-text">What to do if a thunderstorm strikes?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+  
         
     <div id="footer"></div>
 </body>
@@ -214,10 +292,214 @@
   });
 </script>
 
+<script>
+  // Prevent zooming on mouse hover
+  map.scrollWheelZoom.disable();
+    
+</script>
+
 <script src="/API/flightSchdule.js"></script>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script
 src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 crossorigin="anonymous"
 ></script>
+
+<script>
+$(document).ready(function() {
+  const apiKey = "570ffcf3f7d0124612901191a0a702d6";
+  const apiUrl = "https://api.openweathermap.org/data/2.5/";
+  const cityInput = $("#cityInput");
+
+  /// Function to fetch current weather data
+function fetchCurrentWeather(city) {
+  $.ajax({
+    url: `${apiUrl}weather?q=${city}&appid=${apiKey}&units=metric`,
+    method: "GET",
+    success: function(data) {
+      // If data is successfully fetched and displayed, show the container and toggle button
+      displayCurrentWeather(data);
+      document.querySelector('.container-weather').style.display = 'block';
+      document.querySelector('#toggleUnit').style.display = 'block';
+    },
+    error: function(xhr, status, error) {
+      console.error("Error fetching current weather:", error);
+    }
+  });
+}
+
+
+  // Function to display current weather
+  function displayCurrentWeather(data) {
+
+    $(".card-title").show();
+    
+    const currentDate = new Date(data.dt * 1000);
+    const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
+    const currentDay = currentDate.getDate();
+    $(".current-icon").attr("src", `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`);
+    $(".current-temp").text(`${Math.round(data.main.temp)}°C`);
+    $(".current-date").text(`${currentDay} ${currentMonth}, ${currentDate.toLocaleTimeString()}`);
+    $(".current-info").html(`<strong>Wind:</strong> ${data.wind.speed} km/h<br><strong>Humidity:</strong> ${data.main.humidity}%<br><strong>Rain:</strong> ${data.weather[0].description}`);
+  
+    $(".weather-icon").attr("src", `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`);
+
+  
+  $(".current-temp").css("font-size", "24px");
+  $(".current-date").css("color", "blue");
+  $(".current-info").css({
+    "font-weight": "bold",
+    "color": "green"
+  });
+  
+  }
+
+  // Function to fetch forecast data
+  function fetchForecast(city) {
+    $.ajax({
+      url: `${apiUrl}forecast?q=${city}&appid=${apiKey}&units=metric`,
+      method: "GET",
+      success: function(data) {
+        displayForecast(data);
+      },
+      error: function(xhr, status, error) {
+        console.error("Error fetching forecast:", error);
+      }
+    });
+  }
+
+  // Function to display forecast
+function displayForecast(data) {
+    $(".card-title").show();
+    $(".forecast-cards").empty();
+    for (let i = 0; i < data.list.length; i += 8) {
+        const forecast = data.list[i];
+        const forecastDate = new Date(forecast.dt * 1000);
+        const forecastMonth = forecastDate.toLocaleString('default', { month: 'short' });
+        const forecastDay = forecastDate.getDate();
+
+        // Assign a unique ID to each weather icon based on its index
+        const iconId = `weather-icon-${i}`;
+
+        // Define a function to get the color based on the weather condition
+        function getIconColor(condition) {
+            switch (condition) {
+                case "Clear":
+                    return "yellow"; // Example color for clear weather
+                case "Clouds":
+                    return "gray"; // Example color for cloudy weather
+                case "Rain":
+                    return "gray"; // Example color for rainy weather
+                default:
+                    return "black"; // Default color
+            }
+        }
+
+        // Get the color for the current weather condition
+        const iconColor = getIconColor(forecast.weather[0].main);
+
+        const forecastCard = `
+            <div class="col-md-2">
+                <div class="weather-card">
+                    <div class="card-body">
+                        <img id="${iconId}" src="http://openweathermap.org/img/wn/${forecast.weather[0].icon}.png" alt="Weather Icon" style="color: ${iconColor}">
+                        <h5>${Math.round(forecast.main.temp)}°C</h5>
+                        <p>${forecastMonth} ${forecastDay}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        $(".forecast-cards").append(forecastCard);
+    }
+}
+
+
+  // Function to fetch and display city information
+  function fetchCityInfo(city) {
+    $.ajax({
+      url: `${apiUrl}weather?q=${city}&appid=${apiKey}&units=metric`,
+      method: "GET",
+      success: function(data) {
+        displayCityInfo(data);
+      },
+      error: function(xhr, status, error) {
+        console.error("Error fetching city information:", error);
+      }
+    });
+  }
+
+  // Function to display city information
+function displayCityInfo(data) {
+
+    // Display city information card
+    $(".city-info").show();
+
+  const sunrise = new Date(data.sys.sunrise * 1000).toLocaleTimeString();
+  const sunset = new Date(data.sys.sunset * 1000).toLocaleTimeString();
+  $(".sunrise-time").text(sunrise);
+  $(".sunset-time").text(sunset);
+  $(".humidity").text(`${data.main.humidity}%`);
+  $(".chance-of-rain").text(data.weather[0].description);
+  $(".air-quality").text(`${data.main.pressure} hPa`);
+  $(".wind-speed").text(`${data.wind.speed} km/h`);
+
+   // Display city and country
+   $(".city-name").text(`${data.name}, ${data.sys.country}`);
+}
+
+
+  // Event listener for form submission
+  $("#weatherForm").submit(function(event) {
+    event.preventDefault();
+    const city = cityInput.val();
+    fetchCurrentWeather(city);
+    fetchForecast(city);
+    fetchCityInfo(city);
+  });
+});
+
+</script>
+
+<script>
+$(document).ready(function() {
+  // Initialize variable to track current unit
+  let isCelsius = true;
+
+  // Function to convert temperature to Fahrenheit
+  function convertToFahrenheit(celsiusTemp) {
+    return (celsiusTemp * 9/5) + 32;
+  }
+
+  // Function to update temperature display based on current unit
+  function updateTemperature(tempCelsius) {
+    if (isCelsius) {
+      $('.current-temp').text(`${Math.round(tempCelsius)}°C`);
+    } else {
+      $('.current-temp').text(`${Math.round(convertToFahrenheit(tempCelsius))}°F`);
+    }
+  }
+
+  // Event listener for toggle button
+  $('#toggleUnit').click(function() {
+    // Toggle current unit
+    isCelsius = !isCelsius;
+
+    // Get current temperature
+    const currentTemp = parseFloat($('.current-temp').text());
+
+    // Update temperature display
+    updateTemperature(currentTemp);
+  });
+
+  // Example function to update temperature display when data is fetched
+  function displayCurrentWeather(data) {
+    // Assume data.main.temp contains current temperature in Celsius
+    updateTemperature(data.main.temp);
+  }
+});
+</script>
+
+
 </html>
