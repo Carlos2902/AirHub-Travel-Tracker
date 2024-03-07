@@ -23,7 +23,6 @@
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
 
         <!-- Styles for home -->
         <link rel="stylesheet" href="./weather.css">
@@ -78,9 +77,9 @@
             <!-- Form for sending data via POST request -->
             <form id="weatherForm" method="POST">
               <div class="search">
-                  <input type="text" class="text-center" id="cityInput" name="city" placeholder="Enter city name" spellcheck="false" class="text-center">
+                  <input type="text" id="cityInput" name="city" placeholder="Enter city name" spellcheck="false" class="text-center text-dark">
                   <!-- Use a submit button inside the form -->
-                  <button class="btn btn-search"  type="submit"><img src="/assets/search.png" alt=""></button>
+                  <button class="btn btn-lg btn-search"  type="submit"><img src="/assets/search.png" alt=""></button>
               </div>
           </form>
           <p class="fw-bold p-tag">Current Weather in Arrival Destination</p>
@@ -235,7 +234,7 @@
   <br>
 
   <!-- Fourth Card -->
-  <div class="card mt-5" style="border-radius: 10px; border: 1px solid rgb(192, 215, 248); ">
+  <div class="card mt-5" style="border-radius: 10px; border: 1px solid rgb(192, 215, 248); box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
     <div class="row">
       <div class="col-md-6">
         <img src="/assets/trackingflight.jpg" class="img-top" alt="World Map Image" style="width: 300px; border-radius: 10px;">
@@ -249,7 +248,7 @@
   </div>
 <br>
 <br>
-  <div class="card mt-1" style="border-radius: 10px; border: 1px solid rgb(192, 215, 248);">
+  <div class="card mt-1" style="border-radius: 10px; border: 1px solid rgb(192, 215, 248); box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
     <div class="row">
       <div class="col-md-6">
         <div class="card-body">
@@ -262,7 +261,7 @@
     </div>
   </div>
   <br>
-  <div class="card mt-1 mb-5" style="border-radius: 10px; border: 1px solid rgb(192, 215, 248);">
+  <div class="card mt-1 mb-5" style="border-radius: 10px; border: 1px solid rgb(192, 215, 248); box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
     <div class="row">
       <div class="col-md-6">
         <img src="/assets/warning.jpeg" class="img-top" alt="World Map Image" style="width: 320px; border-radius: 10px;">
@@ -279,8 +278,6 @@
   
         
     <div id="footer"></div>
-</body>
-
 
 <script type="module" src="/API/fetchFlightData.js"></script>
 <script type="module" src="/API/leaflet.js"></script>
@@ -502,4 +499,5 @@ $(document).ready(function() {
 </script>
 
 
+</body>
 </html>
