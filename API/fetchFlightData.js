@@ -5,7 +5,7 @@ async function fetchData() {
     const options = {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': '967590798amshee898db2d6f428ap17d6d0jsn1cffc6857ba4',
+            'X-RapidAPI-Key': '46fbb75d1bmsh6956c8bb4825f1dp166e33jsn352edf6c3b5a',
             'X-RapidAPI-Host': 'flight-radar1.p.rapidapi.com'
         }
     };

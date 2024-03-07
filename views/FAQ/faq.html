@@ -11,18 +11,25 @@
   <!-- Bootstrap Bundle with Popper.js for Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Custom CSS -->  
+          <!-- Script for header and footer -->
+          <script>
+            $(function(){
+                $("#header").load("/layouts/header.html"); 
+                $("#footer").load("/layouts/footer.html"); 
+            });
+        </script>
 </head>
 <body>
+  <div id="header"></div>
+
+
   <div class="container my-5">
     <div class="search-bar">
       <input type="text" class="form-control search-input" placeholder="Search...">
       <button class="btn search-button">Search</button>
     </div>
   </div>
-  <!-- Live Chat Section -->
-  <div class="container my-5">
-    <div class="LiveChat">Live Chat</div>
-  </div>
+
    <!-- Get Answers and Explore New Ways -->
    <div class="container my-4">
     <h2 class="Get-answers-and-explore-new-ways-to-use-AirHub">Get answers and explore new ways to use AirHub</h2>
@@ -174,6 +181,8 @@
       </div>
 
       <!-- Add more FAQ sections as needed -->
+
+      <div id="footer"></div>
 
     </div>
   </div>
