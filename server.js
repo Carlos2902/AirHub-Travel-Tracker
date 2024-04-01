@@ -16,8 +16,10 @@ app.get('/',(req,res)=>{
     res.render(path.join(__dirname, '/views/home/home.ejs'));
 });
 
-
-
+// Flights route
+app.get('/flights', (req,res)=>{
+    res.render(path.join(__dirname, '/views/flights/flights.ejs'));
+});
 
 app.listen(HTTP_PORT, ()=>{
     console.log(`server listening on: ${HTTP_PORT}`)
