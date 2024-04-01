@@ -25,15 +25,10 @@
         crossorigin=""></script>
 
         <!-- Styles for home -->
-        <link rel="stylesheet" href="./weather.css">
+        <link rel="stylesheet" href="/weather.css">
 
         <!-- Script for header and footer -->
-        <script>
-            $(function(){
-                $("#header").load("/layouts/header.html"); 
-                $("#footer").load("/layouts/footer.html"); 
-            });
-        </script>
+
 
 <script>
   function initMap() {
@@ -71,7 +66,7 @@
 
 </head>
 <body>
-    <div id="header"></div>
+  <%- include('../partials/header') %>
 
     <div class="search-form">
             <!-- Form for sending data via POST request -->
@@ -277,7 +272,7 @@
 <br>
   
         
-    <div id="footer"></div>
+<%- include('../partials/footer') %>
 
 <script type="module" src="/API/fetchFlightData.js"></script>
 <script type="module" src="/API/leaflet.js"></script>

@@ -17,7 +17,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-    <link rel="stylesheet" href="./flight-radar.css">
+    <link rel="stylesheet" href="/flight-radar.css">
  <!--flightview css-->
 
  <link rel="stylesheet" href="https://tracker.flightview.com/styles/FlightFinder/FlightFinder.css" type="text/css" title=""> 
@@ -61,17 +61,11 @@
    <script src="https://tracker.flightview.com/lib/js/Fids/Fids.js" type="text/javascript"></script>
    <script src="https://tracker.flightview.com/lib/js/FlightFinder/FlightFinder.js?d=20170302" type="text/javascript"></script>
    <script src="https://tracker.flightview.com/lib/js/Aircraft/Aircraft.js"></script>
-    <!-- Script for header and footer -->
-    <script>
-        $(function () {
-            $("#header").load("/layouts/header.html");
-            $("#footer").load("/layouts/footer.html");
-        });
-    </script>
+
 </head>
 
 <body>
-    <div id="header"></div>
+    <%- include('../partials/header') %>
 
     <div class="container">
         <main class="py-5">
@@ -689,7 +683,7 @@ _gaq.push(['_trackPageview', '/SloulinFieldWeb/FIDS/20001/Arrivals']);
   </main>
 </div>
 
-<div id="footer"></div>
+<%- include('../partials/footer') %>
 
 <script>
 $(document).ready(function() {

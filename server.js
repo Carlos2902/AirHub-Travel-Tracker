@@ -14,11 +14,18 @@ app.set('views', path.join(__dirname, 'views'));
 //sendFile
 app.get('/',(req,res)=>{
     res.render(path.join(__dirname, '/views/home/home.ejs'));
-});
-
+})
 // Flights route
 app.get('/flights', (req,res)=>{
     res.render(path.join(__dirname, '/views/flights/flights.ejs'));
+});
+//weather
+app.get('/weather', (req, res)=>{
+    res.render(path.join(__dirname, '/views/weather/weather.ejs'));
+});
+//flight radar
+app.get('/flightradar', (req, res)=>{
+    res.render(path.join(__dirname, '/views/flight-radar/flight-radar.ejs'));
 });
 
 app.listen(HTTP_PORT, ()=>{
