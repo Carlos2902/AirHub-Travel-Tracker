@@ -31,6 +31,10 @@ app.get('/flightradar', (req, res)=>{
 app.get('/amenities', (req, res)=>{
     res.render(path.join(__dirname, '/views/amenities/amenities.ejs'));
 });
+//FAQS
+app.get('/faqs', (req, res)=>{
+    res.render(path.join(__dirname, '/views/FAQ/faq.ejs'));
+});
 
 app.listen(HTTP_PORT, ()=>{
     console.log(`server listening on: ${HTTP_PORT}`)
