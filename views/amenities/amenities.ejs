@@ -17,18 +17,11 @@
 <!--Fontawesome-->
 <script src="https://kit.fontawesome.com/1fe08c0760.js" crossorigin="anonymous"></script>
         <!-- Styles for home -->
-        <link rel="stylesheet" href="./amenities.css">
+        <link rel="stylesheet" href="/amenities.css">
 
-        <!-- Script for header and footer -->
-        <script>
-            $(function(){
-                $("#header").load("/layouts/header.html"); 
-                $("#footer").load("/layouts/footer.html"); 
-            });
-        </script>
 </head>
 <body>
-    <div id="header"></div>
+  <%- include('../partials/header') %>
 
 
     <section id="virtual-tour-section">
@@ -317,7 +310,7 @@
 </section>
 
 
-<div id="footer"></div>
+<%- include('../partials/footer') %>
 
 
 <!-- AFTER DomContent is loaded, display the data of the flights in the map -->
