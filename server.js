@@ -66,9 +66,6 @@ const client = new MongoClient('mongodb+srv://airhub:YHRaYf9v6s53GUtt@cluster0.f
     fs.mkdirSync(uploadDirectory);
   }
 
-
-
-
 //sendFile
 app.get('/',(req,res)=>{
   res.render(path.join(__dirname, '/views/index/index.ejs'));
@@ -104,6 +101,12 @@ app.get('/signup', (req, res) => {
   res.render(path.join(__dirname, '/views/account/signup.ejs'));
 });
 
+// profile route under /profile
+app.get('/profile', (req, res) => {
+  res.render(path.join(__dirname, '/views/profile/profile.ejs'));
+});
+
+
 
   // Register User
   app.post("/signup", async (req, res) => {
@@ -132,6 +135,7 @@ app.get('/signup', (req, res) => {
   });
 
   // Login user 
+// Assuming you have configured Express to use a view engine like EJS
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -148,14 +152,13 @@ app.post("/login", async (req, res) => {
       return res.send("Invalid password");
     }
     
-    // Successful login
-    res.render("profile",  { user: user });
+    // Successful login, render the profile view
+    res.render("/profile", { user: user });
   } catch (error) {
     console.error('Error logging in user:', error);
     res.status(500).send('Internal server error.');
   }
 });
-
 
 
 // Define Port for Application
