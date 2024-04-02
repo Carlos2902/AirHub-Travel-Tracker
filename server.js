@@ -69,44 +69,39 @@ const DB = `mongodb+srv://airhub:YHRaYf9v6s53GUtt@cluster0.fjg8mda.mongodb.net/?
 
 let Schema = mongoose.Schema;
 
-// Home page
-app.get('/', (req, res) => {
-  res.render('index/index');
-});
-
+//sendFile
+app.get('/',(req,res)=>{
+  res.render(path.join(__dirname, '/views/index/index.ejs'));
+})
 // Flights route
-app.get('/flights', (req, res) => {
-  res.render('flights/flights');
+app.get('/flights', (req,res)=>{
+  res.render(path.join(__dirname, '/views/flights/flights.ejs'));
 });
-
-// Weather route
-app.get('/weather', (req, res) => {
-  res.render('weather/weather'); 
+//weather
+app.get('/weather', (req, res)=>{
+  res.render(path.join(__dirname, '/views/weather/weather.ejs'));
 });
-
-// Flight radar route
-app.get('/flightradar', (req, res) => {
-  res.render('flight-radar/flight-radar'); 
+//flight radar
+app.get('/flightradar', (req, res)=>{
+  res.render(path.join(__dirname, '/views/flight-radar/flight-radar.ejs'));
 });
-
-// Amenities route
-app.get('/amenities', (req, res) => {
-  res.render('amenities/amenities'); 
+//amenities
+app.get('/amenities', (req, res)=>{
+  res.render(path.join(__dirname, '/views/amenities/amenities.ejs'));
+});
+//FAQS
+app.get('/faqs', (req, res)=>{
+  res.render(path.join(__dirname, '/views/FAQ/faq.ejs'));
 });
 
 // Signin route under /account
-app.get('/account', (req, res) => {
-  res.render('account/signin'); 
+app.get('/signin', (req, res) => {
+  res.render(path.join(__dirname, '/views/account/signin.ejs'));
 });
 
 // Signup route under /account
-app.get('/account/signup', (req, res) => {
-  res.render('account/signup'); 
-});
-
-// FAQs route
-app.get('/faqs', (req, res) => {
-  res.render('FAQ/faq'); 
+app.get('/signup', (req, res) => {
+  res.render(path.join(__dirname, '/views/account/signup.ejs'));
 });
 
 
