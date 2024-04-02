@@ -7,13 +7,18 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = 8080;
 const session = require('express-session');
-app.set('view engine', 'ejs')
 const bcrypt = require('bcrypt');
 const collection = require("./config");
 const MongoClient = require('mongodb').MongoClient;
 
 const client = new MongoClient('mongodb+srv://airhub:YHRaYf9v6s53GUtt@cluster0.fjg8mda.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true });
 
+
+app.use(session({
+  secret: 'your-secret-key', // Set your own secret key
+  resave: false,
+  saveUninitialized: false
+}));
 
   // Parse JSON bodies
   app.use(express.json());
@@ -22,7 +27,7 @@ const client = new MongoClient('mongodb+srv://airhub:YHRaYf9v6s53GUtt@cluster0.f
   
   app.use(express.static(path.join(__dirname, 'public')));
   app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
-  app.set("views", "./views");
+  app.set('views', path.join(__dirname, 'views'));
   app.use(expressLayouts);
   app.set("layout", "./layouts/layout");
   app.set("view engine", "ejs");
@@ -103,9 +108,8 @@ app.get('/signup', (req, res) => {
 
 // profile route under /profile
 app.get('/profile', (req, res) => {
-  res.render(path.join(__dirname, '/views/profile/profile.ejs'));
+  res.render(path.join(__dirname, '/views/profile/profile.ejs')); 
 });
-
 
 
   // Register User
@@ -135,31 +139,45 @@ app.get('/profile', (req, res) => {
   });
 
   // Login user 
-// Assuming you have configured Express to use a view engine like EJS
-app.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await collection.findOne({ email: email });
+  app.post("/login", async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      const user = await collection.findOne({ email: email });
+  
+      if (!user) {
+        return res.send("User not found");
+      }
+      
+      // Compare the hashed password from the database with the plaintext password
+      const isPasswordMatch = await bcrypt.compare(password, user.password);
+      
+      if (!isPasswordMatch) {
+        return res.send("Invalid password");
+      }
+      
+      req.session.user = user;
+      // Successful login, redirect to the profile page
+      res.render('profile/profile', { user: req.session.user });
+    } catch (error) {
+      console.error('Error logging in user:', error);
+      res.status(500).send('Internal server error.');
+    }
+  });
 
-    if (!user) {
-      return res.send("User not found");
-    }
-    
-    // Compare the hashed password from the database with the plaintext password
-    const isPasswordMatch = await bcrypt.compare(password, user.password);
-    
-    if (!isPasswordMatch) {
-      return res.send("Invalid password");
-    }
-    
-    // Successful login, render the profile view
-    res.render("/profile", { user: user });
-  } catch (error) {
-    console.error('Error logging in user:', error);
-    res.status(500).send('Internal server error.');
-  }
+  // Handle logout
+app.post("/logout", (req, res) => {
+  // Destroy the session
+  req.session.destroy((err) => {
+      if (err) {
+          console.error('Error destroying session:', err);
+          return res.status(500).send('Internal server error.');
+      }
+      // Redirect the user to the login page or any other page
+      res.redirect('/login');
+  });
 });
 
+  
 
 // Define Port for Application
 const port = 8080;
