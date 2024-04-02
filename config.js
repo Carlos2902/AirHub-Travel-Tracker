@@ -14,14 +14,19 @@ connect.then(() => {
 // Create Schema
 const Loginschema = new mongoose.Schema({
     email: {
-        type:String,
-        required: true
+        type: String,
+        required: true,
+    
     },
     password: {
         type: String,
         required: true
     }
 });
+
+// Add indexing to email field for better query performance
+Loginschema.index({ email: 1 });
+
 
 // collection part
 const collection = new mongoose.model("users", Loginschema);
