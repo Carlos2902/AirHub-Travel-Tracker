@@ -3,20 +3,22 @@ const expressLayouts = require('express-ejs-layouts');
 const multer = require('multer');
 const path = require('path'); 
 const fs = require('fs');
-const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
 const app = express();
-const HTTP_PORT = process.env.PORT || 8080;
+const PORT = 8080;
 const session = require('express-session');
 app.set('view engine', 'ejs')
+const bcrypt = require('bcrypt');
+const collection = require("./config");
+const MongoClient = require('mongodb').MongoClient;
 
-app.use(session({
-    secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: true
-  }));
+const client = new MongoClient('mongodb+srv://airhub:YHRaYf9v6s53GUtt@cluster0.fjg8mda.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true });
+
+
   // Parse JSON bodies
   app.use(express.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+
   
   app.use(express.static(path.join(__dirname, 'public')));
   app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
@@ -64,10 +66,8 @@ app.use(session({
     fs.mkdirSync(uploadDirectory);
   }
 
-  //Copy the connection from MongoDB into here
-const DB = `mongodb+srv://airhub:YHRaYf9v6s53GUtt@cluster0.fjg8mda.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
-let Schema = mongoose.Schema;
+
 
 //sendFile
 app.get('/',(req,res)=>{
@@ -95,8 +95,8 @@ app.get('/faqs', (req, res)=>{
 });
 
 // Signin route under /account
-app.get('/signin', (req, res) => {
-  res.render(path.join(__dirname, '/views/account/signin.ejs'));
+app.get('/login', (req, res) => {
+  res.render(path.join(__dirname, '/views/account/login.ejs'));
 });
 
 // Signup route under /account
@@ -105,6 +105,61 @@ app.get('/signup', (req, res) => {
 });
 
 
-app.listen(HTTP_PORT, ()=>{
-    console.log(`server listening on: ${HTTP_PORT}`)
-})
+  // Register User
+  app.post("/signup", async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+      // Check if the username already exists in the database
+      const existingUser = await collection.findOne({ email: email });
+
+      if (existingUser) {
+        res.send('Email already exists. Please choose a different email.');
+      } else {
+        // Hash the password using bcrypt
+        const saltRounds = 10; // Number of salt rounds for bcrypt
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Insert the user into the database
+        await collection.create({ email: email, password: hashedPassword });
+
+        res.send('User registered successfully.');
+      }
+    } catch (error) {
+      console.error('Error registering user:', error);
+      res.status(500).send('Internal server error.');
+    }
+  });
+
+  // Login user 
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await collection.findOne({ email: email });
+
+    if (!user) {
+      return res.send("User not found");
+    }
+    
+    // Compare the hashed password from the database with the plaintext password
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    
+    if (!isPasswordMatch) {
+      return res.send("Invalid password");
+    }
+    
+    // Successful login
+    res.render("profile",  { user: user });
+  } catch (error) {
+    console.error('Error logging in user:', error);
+    res.status(500).send('Internal server error.');
+  }
+});
+
+
+
+// Define Port for Application
+const port = 8080;
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`)
+});
