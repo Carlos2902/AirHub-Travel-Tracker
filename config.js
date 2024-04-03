@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 // Connect to MongoDB
-const connect = mongoose.connect( 'mongodb+srv://airhub:YHRaYf9v6s53GUtt@cluster0.fjg8mda.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+const client = new MongoClient('mongodb+srv://trackairhub:mYscVnRcyYlNVU09@cluster0.hnkcfcs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 // Check database connected or not
