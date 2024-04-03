@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt');
 const collection = require("./config");
 const MongoClient = require('mongodb').MongoClient;
 
-const client = new MongoClient('mongodb+srv://airhub:YHRaYf9v6s53GUtt@cluster0.fjg8mda.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient('mongodb+srv://trackairhub:mYscVnRcyYlNVU09@cluster0.hnkcfcs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 app.use(session({
