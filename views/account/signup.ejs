@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+        <!-- Bootstrap CSS -->
+        <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous"
+        />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Leaftlet map  -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+        <!-- Make sure you put this AFTER Leaflet's CSS -->
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+
+        <!-- Styles for home -->
+        <link rel="stylesheet" href="./account.css">
+
+        <!-- Script for header and footer -->
+        <script>
+            $(function(){
+                $("#header").load("/layouts/header.html"); 
+                $("#footer").load("/layouts/footer.html"); 
+            });
+        </script>
+</head>
+<body>
+    <div id="header"></div>
+    <div class="container my-5">
+        <div class="row">
+          <div class="col-md-6">
+            <!-- Form Column -->
+            <h2 class="mb-5">Create Account</h2>
+            <p class="mb-5">Hi, Welcome to AirHub! 👋</p>
+            <hr>
+            <div class="mb-3">
+              <button type="button" class="btn btn-lg mb-3" style="background-color: #95C6F6;"> Sign Up with Google <svg xmlns="http://www.w3.org/2000/svg"
+              width="16" height="16" fill="green" class="bi bi-google mb-1" 
+              viewBox="0 0 16 16">
+             <path d="M15.545 6.558a9.4 9.4 0 0 1 
+             .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292
+              10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284
+               2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492
+                3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301
+                 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z"/>
+           </svg></button>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <hr class="flex-grow-1">
+              <p class="mb-0"> or Sign Up with Email </p>
+              <hr class="flex-grow-1">
+            </div>
+            <form id="signupForm">
+              <div class="mb-3">
+                <label for="inputUsername" class="form-label">Username</label>
+                <input type="text" class="form-control" id="inputUsername" name="username" placeholder="Enter your username" required>
+              </div>
+              <div class="mb-3">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Enter your password" required>
+              </div>
+              <div class="mb-3">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                  <label class="form-check-label" for="rememberMe">Remember Me</label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-lg btn-warning mb-3">Sign Up</button>
+              <p class="mx-auto">Already Have an account? <a href="/views/account/signin.ejs" class="text-dark"><span class="text-danger">Login</span></a></p>
+            </form>
+            
+          </div>
+          <div class="col-md-6">
+            <img src="/assets/plane.png" alt="plane" srcset="" style="margin-right:60px; width: 115%;">
+          </div>
+        </div>
+      </div>
+        
+    <div id="footer"></div>
+</body>
+
+
+<script type="module" src="/API/fetchFlightData.js"></script>
+<script type="module" src="/API/leaflet.js"></script>
+
+<!-- AFTER DomContent is loaded, display the data of the flights in the map -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      fetchData();
+  });
+</script>
+
+<script src="/API/flightSchdule.js"></script>
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+crossorigin="anonymous"
+></script>
+<script>
+  document.getElementById('signupForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+    const username = formData.get('username');
+    const password = formData.get('password');
+
+    const requestData = { username, password };
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestData)
+    };
+
+    try {
+      const response = await fetch('/signup', requestOptions);
+      if (response.ok) {
+        console.log('User signed up successfully');
+        // Handle successful signup
+      } else {
+        console.error('Failed to sign up user');
+        // Handle failed signup
+      }
+    } catch (error) {
+      console.error('Error signing up user:', error);
+      // Handle error
+    }
+  });
+</script>
+</html>
