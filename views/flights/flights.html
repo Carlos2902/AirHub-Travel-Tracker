@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flights</title>
+            <!-- Bootstrap CSS -->
+            <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+            />
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <!-- Script for header and footer -->
+            <script>
+                $(function(){
+                    $("#header").load("/layouts/header.html"); 
+                    $("#footer").load("/layouts/footer.html"); 
+                });
+            </script>
+
+<style>
+    .flight-status {
+      background-color: #F9F9F9;
+      padding: 20px;
+    }
+    .search-form {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+    <div id="header"></div>
+
+    <div class="container my-5">
+        <div class="row">
+          <div class="col-md-5 flight-status">
+            <h2>Flight Status</h2>
+            <div class="py-5"></div>
+            <form>
+                <div class="mb-3">
+                  <input type="text" class="form-control" id="fromInput" placeholder="FROM">
+                </div>
+                <div class="mb-3">
+                  <input type="text" class="form-control" id="toInput" placeholder="TO">
+                </div>
+                <div class="mb-3">
+                  <input type="date" class="form-control" id="dateInput">
+                </div>
+                <button type="submit" class="btn btn-primary my-3">Search</button>
+              </form>
+        </div>
+        <div class="col-md-7">
+          <div class="search-form">
+            <!-- In here, after the 'to' word it should be change depending on the text wrote it into the 'toInput' input -->
+            <h2 class="text-center ">Arrival Times</h2>
+            
+              <div class="card-container">
+                <div class="card-left"> </div>
+                <div class="card-right"> </div>
+
+              </div>
+
+          </div>
+        </div>
+            <!-- Add flight status content here if needed -->
+        </div>
+      </div>
+
+    <div id="footer"></div>
+</body>
+  <script src="./flights.js"></script>
+</html>
