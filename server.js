@@ -20,10 +20,7 @@ app.use(session({
   // Parse JSON bodies
   app.use(express.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-
-  
   app.use(express.static(path.join(__dirname, 'public')));
-  app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
   app.set('views', path.join(__dirname, 'views'));
   app.use(expressLayouts);
   app.set("layout", "./layouts/layout");
@@ -63,12 +60,6 @@ app.get('/login', (req, res) => {
 app.get('/signup', (req, res) => {
   res.render(path.join(__dirname, '/views/account/signup.ejs'));
 });
-
-// profile route under /profile
-app.get('/profile', (req, res) => {
-  res.render(path.join(__dirname, '/views/profile/profile.ejs')); 
-});
-
 
   // Register User
   app.post("/signup", async (req, res) => {
@@ -132,8 +123,6 @@ app.post("/logout", (req, res) => {
       res.redirect('/login');
   });
 });
-
-  
 
 // Define Port for Application
 const port = 8080;
