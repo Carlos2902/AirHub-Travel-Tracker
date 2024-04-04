@@ -117,8 +117,6 @@ app.get('/profile', (req, res) => {
       }
       
       req.session.user = user;
-      // Successful login, redirect to the profile page
-      res.render('profile/profile', { user: req.session.user });
     } catch (error) {
       console.error('Error logging in user:', error);
       res.status(500).send('Internal server error.');
