@@ -1,13 +1,10 @@
 const express = require("express");
 const expressLayouts = require('express-ejs-layouts');
-const multer = require('multer');
 const path = require('path'); 
-const fs = require('fs');
 const bodyParser = require('body-parser');
 const app = express();
 const PORT = 8080;
 const session = require('express-session');
-const bcrypt = require('bcrypt');
 const collection = require("./config");
 const MongoClient = require('mongodb').MongoClient;
 
