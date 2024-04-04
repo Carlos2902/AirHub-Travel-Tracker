@@ -31,45 +31,6 @@ app.use(session({
   app.use(expressLayouts);
   app.set("layout", "./layouts/layout");
   app.set("view engine", "ejs");
-  
-  const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, uploadDirectory)
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname)
-    }
-  });
-  
-  const upload = multer({ storage: storage });
-  
-  // Route to render the upload form
-  app.get('/upload', (req, res) => {
-    res.render('upload', { title: 'Send a File to Moon' });
-  });
-  
-  // Handle the file upload
-  app.post('/upload', upload.single('image'), (req, res) => {
-    const uploadedFile = req.file;
-  
-    if (!uploadedFile) {
-      return res.status(400).send('No file uploaded.');
-    }
-  
-    console.log('Uploaded file:', uploadedFile);
-  
-    // Update homepageData to include the path to the uploaded image
-    homepageData.uploadedImage = `/uploads/${uploadedFile.filename}`;
-  
-    res.redirect('/'); 
-  });
-  
-  const uploadDirectory = 'public/uploads';
-  
-  // Create uploads directory if it doesn't exist
-  if (!fs.existsSync(uploadDirectory)) {
-    fs.mkdirSync(uploadDirectory);
-  }
 
 //sendFile
 app.get('/',(req,res)=>{
