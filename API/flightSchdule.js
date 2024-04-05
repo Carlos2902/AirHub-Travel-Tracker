@@ -31,7 +31,7 @@ async function fetchArrivalFlightData(url) {
   const options = {
       method: 'GET',
       headers: {
-          'X-RapidAPI-Key': '967590798amshee898db2d6f428ap17d6d0jsn1cffc6857ba4',
+          'X-RapidAPI-Key': '',
           'X-RapidAPI-Host': 'timetable-lookup.p.rapidapi.com'
       }
   };
